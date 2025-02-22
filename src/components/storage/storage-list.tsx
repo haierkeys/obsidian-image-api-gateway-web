@@ -102,7 +102,7 @@ export function StorageList() {
         </div>
       </div>
 
-      <Table>
+      <Table className="min-w-full">
         <TableHeader>
           <TableRow>
             <TableHead className="text-right">{t("actions")}</TableHead>
@@ -115,29 +115,30 @@ export function StorageList() {
           </TableRow>
         </TableHeader>
         <TableBody>
-          {configs.map((config) => (
-            <TableRow key={config.id} className={config.isEnabled ? "bg-green-100" : ""}>
-              <TableCell className="text-right space-x-2">
-                <Button variant="ghost" className="text-gray-400 p-0 m-0" size="sm" onClick={() => setEditingId(config.id)}>
-                  <Pencil className="h-4 w-4" />
-                </Button>
-                <Button variant="ghost" size="sm" className="text-gray-400 p-0 m-0" onClick={() => handleDelete(config.id)}>
-                  <Trash2 className="h-4 w-4" />
-                </Button>
-              </TableCell>
-              <TableCell>
-                {config.type.toLowerCase() == "s3" ? <Aws size={18} className="flex float-left mr-2 text-blue-500 " /> : ""}
-                {config.type.toLowerCase() == "r2" ? <Cloudflare size={18} className="flex float-left mr-2 text-blue-500 " /> : ""}
-                {config.type.toLowerCase() == "oss" ? <AlibabaCloud size={18} className="flex float-left mr-2 text-blue-500 " /> : ""}
-                {config.type.toUpperCase()}
-              </TableCell>
+          {configs &&
+            configs.map((config) => (
+              <TableRow key={config.id} className={config.isEnabled ? "bg-green-100" : ""}>
+                <TableCell className="text-right space-x-2">
+                  <Button variant="ghost" className="text-gray-400 p-0 m-0" size="sm" onClick={() => setEditingId(config.id)}>
+                    <Pencil className="h-4 w-4" />
+                  </Button>
+                  <Button variant="ghost" size="sm" className="text-gray-400 p-0 m-0" onClick={() => handleDelete(config.id)}>
+                    <Trash2 className="h-4 w-4" />
+                  </Button>
+                </TableCell>
+                <TableCell>
+                  {config.type.toLowerCase() == "s3" ? <Aws size={18} className="flex float-left mr-2 text-blue-500 " /> : ""}
+                  {config.type.toLowerCase() == "r2" ? <Cloudflare size={18} className="flex float-left mr-2 text-blue-500 " /> : ""}
+                  {config.type.toLowerCase() == "oss" ? <AlibabaCloud size={18} className="flex float-left mr-2 text-blue-500 " /> : ""}
+                  {config.type.toUpperCase()}
+                </TableCell>
 
-              <TableCell>{config.isEnabled ? <Check className="h-4 w-4" /> : ""}</TableCell>
-              <TableCell>{config.bucketName}</TableCell>
-              <TableCell>{config.customPath ? "/" + config.customPath + "/" : ""}</TableCell>
-              <TableCell>{config.accessUrlPrefix || "-"}</TableCell>
-            </TableRow>
-          ))}
+                <TableCell>{config.isEnabled ? <Check className="h-4 w-4" /> : ""}</TableCell>
+                <TableCell>{config.bucketName}</TableCell>
+                <TableCell>{config.customPath ? "/" + config.customPath + "/" : ""}</TableCell>
+                <TableCell>{config.accessUrlPrefix || "-"}</TableCell>
+              </TableRow>
+            ))}
         </TableBody>
       </Table>
 
