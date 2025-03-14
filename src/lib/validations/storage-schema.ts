@@ -8,9 +8,9 @@ export const storageSchema = z.object({
   endpoint: z.string().optional(),
   region: z.string().optional(),
   accountId: z.string().optional(),
-  bucketName: z.string().min(1, "存储桶名称不能为空"),
-  accessKeyId: z.string().min(1, "AccessKey ID 不能为空"),
-  accessKeySecret: z.string().min(1, "AccessKey Secret 不能为空"),
+  bucketName: z.string().optional(),
+  accessKeyId: z.string().optional(),
+  accessKeySecret: z.string().optional(),
   customPath: z.string().optional(),
   accessUrlPrefix: z.string().min(1, "访问地址前缀不能为空"),
   isEnabled: z.union([z.boolean(), z.number()])

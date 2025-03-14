@@ -1,6 +1,6 @@
 let API_URL = localStorage.getItem('API_URL');
 const env = {
-    API_URL: API_URL ? API_URL : (process.env.NODE_ENV === 'production' ? window.location.origin : 'http://192.168.138.190:8000'),
+    API_URL: API_URL ? API_URL : (process.env.NODE_ENV === 'production' ? window.location.origin : 'http://172.20.17.55:9000'),
     debug: true
 };
 

@@ -21,10 +21,10 @@ export function handleStorage() {
       throw new Error("Network response was not ok")
     }
     const res = await response.json()
-    if (res.code !== 1) {
-      return { success: false, error: res.message + ": " + res.details }
-    } else {
+    if (res.code < 100 && res.code > 0) {
       callback(res.data.list)
+    } else {
+      return { success: false, error: res.message + ": " + res.details }
     }
   }
 
@@ -68,10 +68,34 @@ export function handleStorage() {
       throw new Error("Network response was not ok")
     }
     const res = await response.json()
-    if (res.code < 100) {
+    if (res.code < 100 && res.code >0) {
       openConfirmDialog(res.message, "success")
       data.id = res.data
       callback(data)
+    } else {
+      openConfirmDialog(res.message + ": " + res.details, "error")
+    }
+  }
+
+  const handleStorageTypes = async (callback: (data2: Array<string>) => void) => {
+
+    const response = await fetch(env.API_URL + "/api/user/cloud_config_enabled_types", {
+      method: "GET",
+      headers: {
+        "Content-Type": "application/json",
+        Domain: window.location.origin,
+        Token: token,
+        Lang: getBrowserLang(),
+      },
+    })
+    if (!response.ok) {
+      throw new Error("Network response was not ok")
+    }
+    const res = await response.json()
+
+    console.log(res)
+    if (res.code < 100 && res.code > 0) {
+      callback(res.data)
     } else {
       openConfirmDialog(res.message + ": " + res.details, "error")
     }
@@ -81,5 +105,6 @@ export function handleStorage() {
     handleStorageList,
     handleStorageDelete,
     handleStorageUpdate,
+    handleStorageTypes,
   }
 }

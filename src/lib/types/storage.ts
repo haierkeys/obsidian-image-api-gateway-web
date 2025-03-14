@@ -1,5 +1,5 @@
-export type StorageType = "oss" | "s3" | "r2"
-export const StorageTypeValue = ["oss", "s3", "r2"]
+export type StorageType = "oss" | "s3" | "r2" | "minio" | "localfs"
+export const StorageTypeValue = ["oss", "s3", "r2", "minio", "localfs"]
 
 export interface StorageConfig {
   id: string
@@ -7,9 +7,9 @@ export interface StorageConfig {
   endpoint?: string
   region?: string
   accountId?: string
-  bucketName: string
-  accessKeyId: string
-  accessKeySecret: string
+  bucketName?: string
+  accessKeyId?: string
+  accessKeySecret?: string
   customPath?: string
   accessUrlPrefix: string
   isEnabled: boolean

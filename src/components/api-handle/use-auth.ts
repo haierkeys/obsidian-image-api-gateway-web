@@ -24,15 +24,16 @@ export function useAuth() {
       }
 
       const res = await response.json()
-      if (res.code !== 1) {
-        return { success: false, error: res.message + ": " + res.details }
-      } else {
+      if (res.code < 100 && res.code > 0) {
+
         localStorage.setItem("token", res.data.token)
         localStorage.setItem("username", res.data.username)
         localStorage.setItem("uid", res.data.uid)
         localStorage.setItem("avatar", res.data.avatar)
         localStorage.setItem("email", res.data.email)
         return { success: true, message: res.data.message }
+      } else {
+        return { success: false, error: res.message + ": " + res.details }
       }
     } catch (error) {
       return { success: false, error: "接口请求失败,请检查网络状态" }
@@ -59,15 +60,16 @@ export function useAuth() {
       }
 
       const res = await response.json()
-      if (res.code !== 1) {
-        return { success: false, error: res.message + ": " + res.details }
-      } else {
+
+      if (res.code < 100 && res.code > 0) {
         localStorage.setItem("token", res.data.token)
         localStorage.setItem("username", res.data.username)
         localStorage.setItem("uid", res.data.uid)
         localStorage.setItem("avatar", res.data.avatar)
         localStorage.setItem("email", res.data.email)
         return { success: true }
+      } else {
+        return { success: false, error: res.message + ": " + res.details }
       }
     } catch (error) {
       return { success: false, error: "注册失败，请重试" }

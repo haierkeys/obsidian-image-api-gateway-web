@@ -13,10 +13,11 @@ import { useTranslation } from "react-i18next"
 
 interface StorageFormProps {
   config?: StorageConfig
+  types: Array<string>
   onSubmit: () => void
 }
 
-export function StorageForm({ config, onSubmit }: StorageFormProps) {
+export function StorageForm({ config, types, onSubmit }: StorageFormProps) {
   const { t } = useTranslation()
 
   const [storageType, setStorageType] = useState<StorageConfig["type"] | undefined>(config?.type)
@@ -29,12 +30,11 @@ export function StorageForm({ config, onSubmit }: StorageFormProps) {
     defaultValues: config || { isEnabled: true },
   })
 
-
-
   const onFormSubmit = (data: StorageConfig) => {
     if (config) {
       data.id = config.id
     }
+    console.log(data)
     handleStorageUpdate(data, () => {
       onSubmit()
     })
@@ -56,9 +56,11 @@ export function StorageForm({ config, onSubmit }: StorageFormProps) {
               <SelectValue placeholder={t("selectStorageType")} />
             </SelectTrigger>
             <SelectContent>
-              <SelectItem value="oss">{t("ossName")}</SelectItem>
-              <SelectItem value="s3">{t("s3Name")}</SelectItem>
-              <SelectItem value="r2">{t("r2Name")}</SelectItem>
+              {types.map((type, index) => (
+                <SelectItem value={type} key={index}>
+                  {t(`${type}Name`)}
+                </SelectItem>
+              ))}
             </SelectContent>
           </Select>
 
@@ -89,23 +91,35 @@ export function StorageForm({ config, onSubmit }: StorageFormProps) {
           </div>
         )}
 
-        <div className="space-y-2">
-          <Label htmlFor="bucketName">{t("bucketName")}</Label>
-          <Input id="bucketName" autoComplete="off" {...register("bucketName")} />
-          {errors.bucketName && <p className="text-sm text-red-500">{errors.bucketName.message}</p>}
-        </div>
+        {storageType === "minio" && (
+          <div className="space-y-2">
+            <Label htmlFor="endpoint">{t("endpoint")}</Label>
+            <Input id="endpoint" autoComplete="off" {...register("endpoint")} />
+            {errors.endpoint && <p className="text-sm text-red-500">{errors.endpoint.message}</p>}
+          </div>
+        )}
 
-        <div className="space-y-2">
-          <Label htmlFor="accessKeyId">{t("accessKeyId")}</Label>
-          <Input id="accessKeyId" autoComplete="off" {...register("accessKeyId")} />
-          {errors.accessKeyId && <p className="text-sm text-red-500">{errors.accessKeyId.message}</p>}
-        </div>
-
-        <div className="space-y-2">
-          <Label htmlFor="accessKeySecret">{t("accessKeySecret")}</Label>
-          <Input id="accessKeySecret" autoComplete="off" type="password" {...register("accessKeySecret")} />
-          {errors.accessKeySecret && <p className="text-sm text-red-500">{errors.accessKeySecret.message}</p>}
-        </div>
+        {storageType !== "localfs" && (
+          <div className="space-y-2">
+            <Label htmlFor="bucketName">{t("bucketName")}</Label>
+            <Input id="bucketName" autoComplete="off" {...register("bucketName")} />
+            {errors.bucketName && <p className="text-sm text-red-500">{errors.bucketName.message}</p>}
+          </div>
+        )}
+        {storageType !== "localfs" && (
+          <div className="space-y-2">
+            <Label htmlFor="accessKeyId">{t("accessKeyId")}</Label>
+            <Input id="accessKeyId" autoComplete="off" {...register("accessKeyId")} />
+            {errors.accessKeyId && <p className="text-sm text-red-500">{errors.accessKeyId.message}</p>}
+          </div>
+        )}
+        {storageType !== "localfs" && (
+          <div className="space-y-2">
+            <Label htmlFor="accessKeySecret">{t("accessKeySecret")}</Label>
+            <Input id="accessKeySecret" autoComplete="off" type="password" {...register("accessKeySecret")} />
+            {errors.accessKeySecret && <p className="text-sm text-red-500">{errors.accessKeySecret.message}</p>}
+          </div>
+        )}
 
         <div className="space-y-2">
           <Label htmlFor="customPath">{t("customPath")}</Label>
@@ -121,16 +135,7 @@ export function StorageForm({ config, onSubmit }: StorageFormProps) {
       </div>
 
       <div className="flex items-center space-x-2">
-        {config ? (
-          <Checkbox
-            id="isEnabled"
-            name="isEnabled"
-            defaultChecked={config?.isEnabled ? true : false}
-            onCheckedChange={(checked) => setValue("isEnabled", Boolean(checked))}
-          />
-        ) : (
-          <Checkbox id="isEnabled" name="isEnabled" defaultChecked={true} onCheckedChange={(checked) => setValue("isEnabled", Boolean(checked))} />
-        )}
+        {config ? <Checkbox id="isEnabled" name="isEnabled" defaultChecked={config?.isEnabled ? true : false} onCheckedChange={(checked) => setValue("isEnabled", Boolean(checked))} /> : <Checkbox id="isEnabled" name="isEnabled" defaultChecked={true} onCheckedChange={(checked) => setValue("isEnabled", Boolean(checked))} />}
 
         <Label htmlFor="isEnabled">{t("isEnabled")}</Label>
       </div>
