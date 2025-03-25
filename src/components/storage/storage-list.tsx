@@ -7,7 +7,7 @@ import { StorageForm } from "@/components/storage/storage-form"
 import { handleStorage } from "@/components/api-handle/storage-handle"
 import { useAuth } from "@/components/context/auth-context"
 import env from "@/env.ts"
-import { Cloudflare, Aws, AlibabaCloud, Sync } from "@lobehub/icons"
+import { Cloudflare, Aws, AlibabaCloud } from "@lobehub/icons"
 import { useConfirmDialog } from "@/components/context/confirm-dialog-context"
 import { useTranslation } from "react-i18next"
 
@@ -106,13 +106,27 @@ export function StorageList() {
       navigator.clipboard
         .writeText(configText)
         .then(() => {
-          openConfirmDialog(t("copyConfigSuccess"), "success")
+          openConfirmDialog(
+            t("copyConfigSuccess"),
+            "success",
+            undefined,
+            <textarea readOnly className="mt-1 block w-full p-2.5 text-sm text-gray-900 bg-gray-50 rounded-lg border border-gray-300 focus:ring-blue-500 focus:border-blue-500 resize-none h-52">
+              {configText}
+            </textarea>
+          )
         })
         .catch((err) => {
           openConfirmDialog(t("error") + err)
         })
     } else {
-      openConfirmDialog(t("error") + "Clipboard API 不可用")
+      openConfirmDialog(
+        t("error") + t("copyConfigError"),
+        "error",
+        undefined,
+        <textarea readOnly className="mt-1 block w-full p-2.5 text-sm text-gray-900 bg-gray-50 rounded-lg border border-gray-300 focus:ring-blue-500 focus:border-blue-500 resize-none h-52">
+          {configText}
+        </textarea>
+      )
     }
   }
 
@@ -155,9 +169,7 @@ export function StorageList() {
       {editingId && (
         <div className="p-4 border rounded-lg bg-gray-50">
           <div className="flex w-full">
-            <h3 className="font-bold">
-              {t("editStorage")}
-            </h3>
+            <h3 className="font-bold">{t("editStorage")}</h3>
             <Button className="flex items-center ml-auto" variant="link" onClick={() => setEditingId(null)}>
               {t("close")}
             </Button>
@@ -190,6 +202,7 @@ export function StorageList() {
                   </Button>
                 </TableCell>
                 <TableCell title={t(config.type + "Desc")}>
+
                   {config.type.toLowerCase() === "s3" ? <Aws size={18} className="flex float-left mr-2 text-blue-500" /> : ""}
                   {config.type.toLowerCase() === "r2" ? <Cloudflare size={18} className="flex float-left mr-2 text-blue-500" /> : ""}
                   {config.type.toLowerCase() === "oss" ? <AlibabaCloud size={18} className="flex float-left mr-2 text-blue-500" /> : ""}
@@ -275,7 +288,7 @@ export function StorageList() {
                   ) : (
                     ""
                   )}
-
+                  {config.type.toLowerCase() === "webdav" ? "WebDAV" : ""}
                   {config.type.toLowerCase() === "s3" ? t(config.type) : ""}
                   {config.type.toLowerCase() === "r2" ? t(config.type) : ""}
                   {config.type.toLowerCase() === "oss" ? t(config.type) : ""}

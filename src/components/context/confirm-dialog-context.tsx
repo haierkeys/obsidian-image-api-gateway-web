@@ -1,3 +1,4 @@
+// confirm-dialog-context.tsx
 import React, { createContext, useContext, useState, ReactNode } from "react"
 import { ConfirmDialog } from "@/components/dialog/confirm-dialog"
 
@@ -6,7 +7,8 @@ interface ConfirmDialogContextType {
   isDialogOpen: boolean
   message: string
   type: string
-  openConfirmDialog: (message: string, type?: string, onConfirm?: () => void) => void
+  openConfirmDialog: (message: string, type?: string, onConfirm?: () => void, children?: ReactNode) => void
+  closeDialog: () => void
 }
 
 // 创建上下文
@@ -14,30 +16,41 @@ const ConfirmDialogContext = createContext<ConfirmDialogContextType | undefined>
 
 // 提供者组件
 export const ConfirmDialogProvider: React.FC<{ children: ReactNode }> = ({ children }) => {
-  const handleCancel = () => setIsDialogOpen(false)
-
   const [isDialogOpen, setIsDialogOpen] = useState(false)
   const [message, setMessage] = useState("")
   const [type, setType] = useState("error")
-  const [handleConfirm, setHandleConfirm] = useState<() => {}>()
+  const [handleConfirm, setHandleConfirm] = useState<() => void | undefined>()
+  const [customChildren, setCustomChildren] = useState<ReactNode | undefined>()
 
-  const openConfirmDialog = (message: string, type?: string, onConfirm?: () => void) => {
-    setHandleConfirm(() => handleCancel)
-    setMessage(message)
-    setType(type!)
-    setIsDialogOpen(true)
-    if (onConfirm) {
-      setHandleConfirm(() => () => {
-          onConfirm()
-          handleCancel()
-      })
+  const handleCancel = () => {
+    setIsDialogOpen(false)
+    setMessage("")
+    setType("error")
+    setHandleConfirm(undefined)
+    setCustomChildren(undefined)
+  }
+
+  const handleConfirmClick = () => {
+    if (handleConfirm) {
+      handleConfirm()
     }
+    handleCancel()
+  }
+
+  const openConfirmDialog = (message: string, type?: string, onConfirm?: () => void, children?: ReactNode) => {
+    setMessage(message)
+    setType(type || "error")
+    setHandleConfirm(onConfirm)
+    setCustomChildren(children)
+    setIsDialogOpen(true)
   }
 
   return (
-    <ConfirmDialogContext.Provider value={{ isDialogOpen, message, type, openConfirmDialog }}>
+    <ConfirmDialogContext.Provider value={{ isDialogOpen, message, type, openConfirmDialog, closeDialog: handleCancel }}>
       {children}
-      <ConfirmDialog isOpen={isDialogOpen} onCancel={handleCancel} onConfirm={handleConfirm} message={message} type={type} />
+      <ConfirmDialog isOpen={isDialogOpen} onCancel={handleCancel} onConfirm={handleConfirmClick} message={message} type={type}>
+        {customChildren}
+      </ConfirmDialog>
     </ConfirmDialogContext.Provider>
   )
 }

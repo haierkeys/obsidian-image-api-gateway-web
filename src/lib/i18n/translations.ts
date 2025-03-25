@@ -66,8 +66,8 @@ const translations = {
     info: "Info",
     tableScrollsShowMore: "Tip: Scroll the table to the left and right to show more, max 100 rows",
     copyConfig: "Copy API Config",
-    copyConfigSuccess: "API Config information has been copied to the clipboard",
-
+    copyConfigSuccess: "API Config information has been copied to the clipboard, please return to obsidian plugin to paste the configuration",
+    copyConfigError: "Clipboard API is not available, please copy manually and return to obsidian plugin to paste the configuration",
     credentialsRequired: "Username (or email) is required",
     passwordMinLength: "Password must be at least 6 characters long",
     usernameMinLength: "Username must be at least 3 characters long",
@@ -130,12 +130,17 @@ const translations = {
     r2Name: "Cloudflare R2",
     minioName: "MinIO",
     localfsName: "服务器本地存储",
+    webdavName: "WebDAV",
     accountId: "账户ID Account ID（R2）",
+
     bucketName: "存储桶名称",
     accessKeyId: "AccessKey ID",
     accessKeySecret: "AccessKey Secret",
-    customPath: "自定义路径",
+    customPath: "自定义保存路径",
     accessUrlPrefix: "访问地址前缀",
+    webUser: "WebDAV 用户名",
+    webPassword: "WebDAV 密码",
+    webUrl: "WebDAV 地址",
     isEnabled: "已启用",
 
     logout: "注销",
@@ -148,8 +153,8 @@ const translations = {
     info: "信息",
     tableScrollsShowMore: "提示：左右滚动表格显示更多, 最多100条",
     copyConfig: "复制 API 配置",
-    copyConfigSuccess: "API 配置信息已复制到剪贴板",
-
+    copyConfigSuccess: "API 配置信息 已复制 到剪贴板, 请返回 obsidian 插件粘贴配置",
+    copyConfigError: "剪贴板 API 不可用, 请手动复制并返回 obsidian 插件粘贴配置",
     credentialsRequired: "用户名（或邮箱）不能为空",
     passwordMinLength: "密码至少需要6个字符",
     usernameMinLength: "用户名至少3个字符",
@@ -165,7 +170,6 @@ const translations = {
     r2Desc: "Cloudflare R2 云存储",
     minioDesc: "MinIO 云存储",
     localfsDesc: "服务器本地存储",
-
   },
 }
 

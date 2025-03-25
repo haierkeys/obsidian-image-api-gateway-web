@@ -66,7 +66,6 @@ export function StorageForm({ config, types, onSubmit }: StorageFormProps) {
 
           {errors.type && <p className="text-sm text-red-500">{errors.type.message}</p>}
         </div>
-
         {storageType === "oss" && (
           <div className="space-y-2">
             <Label htmlFor="endpoint">{t("endpoint")}</Label>
@@ -74,7 +73,6 @@ export function StorageForm({ config, types, onSubmit }: StorageFormProps) {
             {errors.endpoint && <p className="text-sm text-red-500">{errors.endpoint.message}</p>}
           </div>
         )}
-
         {storageType === "s3" && (
           <div className="space-y-2">
             <Label htmlFor="region">{t("region")}</Label>
@@ -82,7 +80,6 @@ export function StorageForm({ config, types, onSubmit }: StorageFormProps) {
             {errors.region && <p className="text-sm text-red-500">{errors.region.message}</p>}
           </div>
         )}
-
         {storageType === "r2" && (
           <div className="space-y-2">
             <Label htmlFor="accountId">{t("accountId")}</Label>
@@ -90,7 +87,27 @@ export function StorageForm({ config, types, onSubmit }: StorageFormProps) {
             {errors.accountId && <p className="text-sm text-red-500">{errors.accountId.message}</p>}
           </div>
         )}
-
+        {storageType === "webdav" && (
+          <div className="space-y-2">
+            <Label htmlFor="endpoint">{t("webUrl")}</Label>
+            <Input id="endpoint" autoComplete="off" {...register("endpoint")} />
+            {errors.endpoint && <p className="text-sm text-red-500">{errors.endpoint.message}</p>}
+          </div>
+        )}
+        {storageType === "webdav" && (
+          <div className="space-y-2">
+            <Label htmlFor="user">{t("webUser")}</Label>
+            <Input id="user" autoComplete="off" {...register("user")} />
+            {errors.user && <p className="text-sm text-red-500">{errors.user.message}</p>}
+          </div>
+        )}
+        {storageType === "webdav" && (
+          <div className="space-y-2">
+            <Label htmlFor="password">{t("webPassword")}</Label>
+            <Input id="password" autoComplete="off" type="password" {...register("password")} />
+            {errors.password && <p className="text-sm text-red-500">{errors.password.message}</p>}
+          </div>
+        )}
         {storageType === "minio" && (
           <div className="space-y-2">
             <Label htmlFor="endpoint">{t("endpoint")}</Label>
@@ -98,35 +115,32 @@ export function StorageForm({ config, types, onSubmit }: StorageFormProps) {
             {errors.endpoint && <p className="text-sm text-red-500">{errors.endpoint.message}</p>}
           </div>
         )}
-
-        {storageType !== "localfs" && (
+        {storageType !== "localfs" && storageType !== "webdav" && (
           <div className="space-y-2">
             <Label htmlFor="bucketName">{t("bucketName")}</Label>
             <Input id="bucketName" autoComplete="off" {...register("bucketName")} />
             {errors.bucketName && <p className="text-sm text-red-500">{errors.bucketName.message}</p>}
           </div>
         )}
-        {storageType !== "localfs" && (
+        {storageType !== "localfs" && storageType !== "webdav" && (
           <div className="space-y-2">
             <Label htmlFor="accessKeyId">{t("accessKeyId")}</Label>
             <Input id="accessKeyId" autoComplete="off" {...register("accessKeyId")} />
             {errors.accessKeyId && <p className="text-sm text-red-500">{errors.accessKeyId.message}</p>}
           </div>
         )}
-        {storageType !== "localfs" && (
+        {storageType !== "localfs" && storageType !== "webdav" && (
           <div className="space-y-2">
             <Label htmlFor="accessKeySecret">{t("accessKeySecret")}</Label>
             <Input id="accessKeySecret" autoComplete="off" type="password" {...register("accessKeySecret")} />
             {errors.accessKeySecret && <p className="text-sm text-red-500">{errors.accessKeySecret.message}</p>}
           </div>
         )}
-
         <div className="space-y-2">
           <Label htmlFor="customPath">{t("customPath")}</Label>
           <Input id="customPath" autoComplete="off" {...register("customPath")} />
           {errors.customPath && <p className="text-sm text-red-500">{errors.customPath.message}</p>}
         </div>
-
         <div className="space-y-2">
           <Label htmlFor="accessUrlPrefix">{t("accessUrlPrefix")}</Label>
           <Input id="accessUrlPrefix" autoComplete="off" {...register("accessUrlPrefix")} />
