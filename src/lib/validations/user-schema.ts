@@ -37,3 +37,12 @@ export type RegisterFormData = {
   password: string
   confirmPassword: string
 }
+
+
+export const changePasswdSchema = z.object({
+  oldPassword: z.string().optional(),
+  password: z.string().optional(),
+  confirmPassword: z.string().optional(),
+})
+
+export type ChangePasswdFormData = z.infer<typeof changePasswdSchema>

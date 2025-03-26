@@ -10,6 +10,7 @@ import env from "@/env.ts"
 import { Cloudflare, Aws, AlibabaCloud } from "@lobehub/icons"
 import { useConfirmDialog } from "@/components/context/confirm-dialog-context"
 import { useTranslation } from "react-i18next"
+import { ChangePassword } from "@/components/user/change-password"
 
 export function StorageList() {
   useEffect(() => {
@@ -25,9 +26,13 @@ export function StorageList() {
   const [editingId, setEditingId] = useState<string | null>(null)
   const [isAdding, setIsAdding] = useState(false) // 新增状态：是否显示新增表单
   const [storageTypes, setStorageTypes] = useState<string[]>(StorageTypeValue)
+  const [isChangePasswordOpen, setIsChangePasswordOpen] = useState(false) // 新增状态控制弹出窗口
+
+  const closeChangePassword = () => {
+    setIsChangePasswordOpen(false)
+  }
 
   const username = localStorage.getItem("username")
-  const email = localStorage.getItem("email")
 
   const { openConfirmDialog } = useConfirmDialog() // 使用 useContext 来获取上下文值
 
@@ -140,17 +145,32 @@ export function StorageList() {
             {t("add")}
           </Button>
         </div>
-        <div className="flex items-center space-x-4">
+        <div className="flex items-center">
           <User className="h-4 w-4" />
-          <span className="text-sm">
-            {username} ( {email} )
-          </span>
-          <Button variant="outline" onClick={logout}>
+
+          <span className="text-sm ml-1">{username},</span>
+          <Button className="p-0 m-0 ml-2" onClick={() => setIsChangePasswordOpen(true)} variant="link">
+            修改密码
+          </Button>
+          <Button className="p-0 m-0 ml-2" variant="link" onClick={logout}>
             {t("logout")}
             <LogOut className="h-4 w-4" />
           </Button>
         </div>
       </div>
+
+      {/* 弹出窗口修改密码 */}
+      {isChangePasswordOpen && (
+        <div className="p-4 border rounded-lg bg-gray-50">
+          <div className="flex w-full">
+            <h3 className="font-bold">{t("changePassword")}</h3>
+            <Button className="flex items-center  ml-auto" variant="link" onClick={() => setIsChangePasswordOpen(false)}>
+              {t("close")}
+            </Button>
+          </div>
+          <ChangePassword close={closeChangePassword} />
+        </div>
+      )}
 
       {/* 新增表单 */}
       {isAdding && (
@@ -202,7 +222,6 @@ export function StorageList() {
                   </Button>
                 </TableCell>
                 <TableCell title={t(config.type + "Desc")}>
-
                   {config.type.toLowerCase() === "s3" ? <Aws size={18} className="flex float-left mr-2 text-blue-500" /> : ""}
                   {config.type.toLowerCase() === "r2" ? <Cloudflare size={18} className="flex float-left mr-2 text-blue-500" /> : ""}
                   {config.type.toLowerCase() === "oss" ? <AlibabaCloud size={18} className="flex float-left mr-2 text-blue-500" /> : ""}
