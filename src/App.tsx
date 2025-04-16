@@ -1,8 +1,10 @@
-import { useState } from "react"
-import { useAuth } from "./components/context/auth-context"
-import { LoginForm } from "@/components/user/login-form"
-import { RegisterForm } from "@/components/user/register-form"
-import { StorageList } from "@/components/storage/storage-list"
+import { StorageList } from "@/components/storage/storage-list";
+import { RegisterForm } from "@/components/user/register-form";
+import { LoginForm } from "@/components/user/login-form";
+import { useState } from "react";
+
+import { useAuth } from "./components/context/auth-context";
+
 
 function App() {
   const { isLoggedIn, login } = useAuth()
