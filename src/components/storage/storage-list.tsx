@@ -1,16 +1,18 @@
-import { useState, useEffect } from "react"
-import { CirclePlus, Pencil, Trash2, Check, User, LogOut, Clipboard, Info } from "lucide-react"
-import { Button } from "@/components/ui/button"
-import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table"
-import { StorageConfig, StorageTypeValue } from "@/lib/types/storage"
-import { StorageForm } from "@/components/storage/storage-form"
-import { handleStorage } from "@/components/api-handle/storage-handle"
-import { useAuth } from "@/components/context/auth-context"
-import env from "@/env.ts"
-import { Cloudflare, Aws, AlibabaCloud } from "@lobehub/icons"
-import { useConfirmDialog } from "@/components/context/confirm-dialog-context"
-import { useTranslation } from "react-i18next"
-import { ChangePassword } from "@/components/user/change-password"
+import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
+import { CirclePlus, Pencil, Trash2, Check, User, LogOut, Clipboard, Info } from "lucide-react";
+import { useConfirmDialog } from "@/components/context/confirm-dialog-context";
+import { handleStorage } from "@/components/api-handle/storage-handle";
+import { StorageConfig, StorageTypeValue } from "@/lib/types/storage";
+import { ChangePassword } from "@/components/user/change-password";
+import { StorageForm } from "@/components/storage/storage-form";
+import { SiCloudflare, SiAlibabacloud } from "react-icons/si";
+import { useAuth } from "@/components/context/auth-context";
+import { Button } from "@/components/ui/button";
+import { useTranslation } from "react-i18next";
+import { useState, useEffect } from "react";
+import { FaAws } from "react-icons/fa";
+import env from "@/env.ts";
+
 
 export function StorageList() {
   useEffect(() => {
@@ -222,9 +224,9 @@ export function StorageList() {
                   </Button>
                 </TableCell>
                 <TableCell title={t(config.type + "Desc")}>
-                  {config.type.toLowerCase() === "s3" ? <Aws size={18} className="flex float-left mr-2 text-blue-500" /> : ""}
-                  {config.type.toLowerCase() === "r2" ? <Cloudflare size={18} className="flex float-left mr-2 text-blue-500" /> : ""}
-                  {config.type.toLowerCase() === "oss" ? <AlibabaCloud size={18} className="flex float-left mr-2 text-blue-500" /> : ""}
+                  {config.type.toLowerCase() === "s3" ? <FaAws size={18} className="flex float-left mr-2 text-blue-500" /> : ""}
+                  {config.type.toLowerCase() === "r2" ? <SiCloudflare size={18} className="flex float-left mr-2 text-blue-500" /> : ""}
+                  {config.type.toLowerCase() === "oss" ? <SiAlibabacloud size={18} className="flex float-left mr-2 text-blue-500" /> : ""}
                   {config.type.toLowerCase() === "minio" ? (
                     <svg xmlns="http://www.w3.org/2000/svg" xmlnsXlink="http://www.w3.org/1999/xlink" width="50px" height="18px" viewBox="0 0 122 18" className="flex float-left mr-2 text-blue-500">
                       <g id="surface1">
