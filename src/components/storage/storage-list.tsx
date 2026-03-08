@@ -310,6 +310,7 @@ export function StorageList() {
                     ""
                   )}
                   {config.type.toLowerCase() === "webdav" ? "WebDAV" : ""}
+                  {config.type.toLowerCase() === "doge" ? t("dogeName") : ""}
                   {config.type.toLowerCase() === "s3" ? t(config.type) : ""}
                   {config.type.toLowerCase() === "r2" ? t(config.type) : ""}
                   {config.type.toLowerCase() === "oss" ? t(config.type) : ""}
