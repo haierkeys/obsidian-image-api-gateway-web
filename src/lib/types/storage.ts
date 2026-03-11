@@ -1,5 +1,5 @@
-export type StorageType = "oss" | "s3" | "r2" | "minio" | "localfs" | "webdav"
-export const StorageTypeValue = ["oss", "s3", "r2", "minio", "localfs", "webdav"]
+export type StorageType = "oss" | "s3" | "r2" | "minio" | "localfs" | "webdav" | "doge"
+export const StorageTypeValue = ["oss", "s3", "r2", "minio", "localfs", "webdav", "doge"]
 
 export interface StorageConfig {
   id: string

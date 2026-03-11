@@ -115,6 +115,20 @@ export function StorageForm({ config, types, onSubmit }: StorageFormProps) {
             {errors.endpoint && <p className="text-sm text-red-500">{errors.endpoint.message}</p>}
           </div>
         )}
+        {storageType === "doge" && (
+          <div className="space-y-2">
+            <Label htmlFor="endpoint">{t("endpoint")}</Label>
+            <Input id="endpoint" autoComplete="off" {...register("endpoint")} />
+            {errors.endpoint && <p className="text-sm text-red-500">{errors.endpoint.message}</p>}
+          </div>
+        )}
+        {storageType === "doge" && (
+          <div className="space-y-2">
+            <Label htmlFor="region">{t("region")}</Label>
+            <Input id="region" autoComplete="off" {...register("region")} />
+            {errors.region && <p className="text-sm text-red-500">{errors.region.message}</p>}
+          </div>
+        )}
         {storageType !== "localfs" && storageType !== "webdav" && (
           <div className="space-y-2">
             <Label htmlFor="bucketName">{t("bucketName")}</Label>
